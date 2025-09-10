@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <title>PDF 連結產生器</title>
+  <script>
+    function generateLink() {
+      const code = document.getElementById("inputId").value.trim();
+      if (code) {
+        // 假設所有 PDF 都在這個公開資料夾中，並以「編號.pdf」命名
+        const folderUrl = "https://drive.google.com/drive/folders/1kJE3nslHfCoW-oUaWsSEREB3AxYqO2w11";
+        const searchUrl = `https://drive.google.com/drive/u/0/search?q=${encodeURIComponent(code + ".pdf")}`;
+        document.getElementById("result").innerHTML =
+          `<p>🔗 點擊以下連結搜尋檔案：</p>
+           <a href="${searchUrl}" target="_blank">${code}.pdf</a>`;
+      } else {
+        document.getElementById("result").innerHTML = "請輸入有效編號";
+      }
+    }
+  </script>
+</head>
+<body>
+  <h2>輸入編號產生 PDF 連結</h2>
+  <input type="text" id="inputId" placeholder="請輸入編號">
+  <button onclick="generateLink()">產生連結</button>
+  <div id="result" style="margin-top: 20px;"></div>
+</body>
+</html>
