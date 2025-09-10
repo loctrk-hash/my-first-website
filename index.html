@@ -1,23 +1,90 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-Hant">
 <head>
   <meta charset="UTF-8">
-  <title>檔案清單</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GitHub 檔案清單</title>
+  <style>
+    body {
+      font-family: "Segoe UI", sans-serif;
+      margin: 0;
+      padding: 16px;
+      background-color: #f0f2f5;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    h1 {
+      font-size: 1.4em;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    li {
+      margin-bottom: 12px;
+      padding: 10px;
+      background: #f9f9f9;
+      border-radius: 6px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+
+    a {
+      text-decoration: none;
+      color: #0078D4;
+      word-break: break-word;
+      font-size: 1em;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    #error {
+      color: red;
+      text-align: center;
+      margin-top: 20px;
+    }
+  </style>
 </head>
 <body>
-  <h1>檔案列表</h1>
-  <ul id="file-list"></ul>
+  <div class="container">
+    <h1>檔案列表</h1>
+    <ul id="file-list"></ul>
+    <div id="error"></div>
+  </div>
 
   <script>
     const user = "loctrk-hash";
     const repo = "my-first-website";
-    const path = ""; // 根目錄，若要列出子目錄可填入 "folder-name"
+    const path = ""; // 根目錄
 
     fetch(`https://api.github.com/repos/${user}/${repo}/contents/${path}`)
-      .then(response => response.json())
+      .then(response => {
+        if (!response.ok) {
+          throw new Error("無法取得檔案清單");
+        }
+        return response.json();
+      })
       .then(data => {
         const list = document.getElementById("file-list");
-        data.forEach(file => {
+        const files = data
+          .filter(file => file.type === "file")
+          .sort((a, b) => a.name.localeCompare(b.name));
+
+        files.forEach(file => {
           const li = document.createElement("li");
           const link = document.createElement("a");
           link.href = `https://${user}.github.io/${repo}/${file.name}`;
@@ -25,6 +92,9 @@
           li.appendChild(link);
           list.appendChild(li);
         });
+      })
+      .catch(error => {
+        document.getElementById("error").textContent = error.message;
       });
   </script>
 </body>
