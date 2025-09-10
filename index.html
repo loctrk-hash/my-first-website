@@ -1,10 +1,31 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
+<html>
 <head>
   <meta charset="UTF-8">
-  <title>測試頁面</title>
+  <title>檔案清單</title>
 </head>
 <body>
-  <h1>GitHub Pages 成功顯示！</h1>
+  <h1>檔案列表</h1>
+  <ul id="file-list"></ul>
+
+  <script>
+    const user = "loctrk-hash";
+    const repo = "my-first-website";
+    const path = ""; // 根目錄，若要列出子目錄可填入 "folder-name"
+
+    fetch(`https://api.github.com/repos/${user}/${repo}/contents/${path}`)
+      .then(response => response.json())
+      .then(data => {
+        const list = document.getElementById("file-list");
+        data.forEach(file => {
+          const li = document.createElement("li");
+          const link = document.createElement("a");
+          link.href = `https://${user}.github.io/${repo}/${file.name}`;
+          link.textContent = file.name;
+          li.appendChild(link);
+          list.appendChild(li);
+        });
+      });
+  </script>
 </body>
 </html>
