@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <title>Google Drive PDF 連結產生器</title>
+  <script>
+    function generateDriveLink() {
+      const id = document.getElementById("inputId").value.trim();
+      if (id) {
+        // 假設 PDF 檔案名稱為 編號.pdf，且已上傳至 Google Drive 並設為公開
+        const baseUrl = "https://loctrk-hash.github.io/my-first-website/";
+        const link = `${baseUrl}${id}.pdf`;
+        document.getElementById("result").innerHTML =
+          `<a href="${link}" target="_blank">${id}.pdf</a>`;
+      } else {
+        document.getElementById("result").innerHTML = "請輸入有效的 Google Drive 檔案 ID";
+      }
+    }
+  </script>
+</head>
+<body>
+  <h2>輸入 Google Drive 檔案 ID 產生 PDF 連結</h2>
+  <input type="text" id="inputId" placeholder="請輸入檔案 ID">
+  <button onclick="generateDriveLink()">產生連結</button>
+  <div id="result" style="margin-top: 20px;"></div>
+</body>
+</html>
