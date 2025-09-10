@@ -2,26 +2,89 @@
 <html lang="zh-Hant">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>會員編號 PDF 連結產生器</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 20px;
+      margin: 0;
+      background-color: #f9f9f9;
+    }
+
+    .container {
+      max-width: 500px;
+      margin: auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      text-align: center;
+      font-size: 1.5em;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 12px;
+      margin-top: 10px;
+      margin-bottom: 10px;
+      box-sizing: border-box;
+      font-size: 1em;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      font-size: 1em;
+      background-color: #0078D4;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #005fa3;
+    }
+
+    #result {
+      margin-top: 20px;
+      word-break: break-word;
+      text-align: center;
+    }
+
+    a {
+      color: #0078D4;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
   <script>
     function generateDriveLink() {
       const id = document.getElementById("inputId").value.trim();
       if (id) {
-        // 假設 PDF 檔案名稱為 編號.pdf，且已上傳至 Google Drive 並設為公開
         const baseUrl = "https://loctrk-hash.github.io/my-first-website/";
         const link = `${baseUrl}${id}.pdf`;
         document.getElementById("result").innerHTML =
           `<a href="${link}" target="_blank">${id}.pdf</a>`;
       } else {
-        document.getElementById("result").innerHTML = "請輸入有效的 Google Drive 檔案 ID";
+        document.getElementById("result").innerHTML = "請輸入有效的會員編號";
       }
     }
   </script>
 </head>
 <body>
-  <h2>輸入 會員編號</h2>
-  <input type="text" id="inputId" placeholder="會員編號 ID">
-  <button onclick="generateDriveLink()">產生連結</button>
-  <div id="result" style="margin-top: 20px;"></div>
+  <div class="container">
+    <h2>輸入會員編號</h2>
+    <input type="text" id="inputId" placeholder="會員編號 ID">
+    <button onclick="generateDriveLink()">產生連結</button>
+    <div id="result"></div>
+  </div>
 </body>
 </html>
